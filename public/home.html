@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="./css/home.css">
+    <title>Home</title>
+</head>
+
+<body>
+
+    <!-- Modal das Regras (inicialmente oculto) -->
+    <div class="modal" id="modalRegras">
+        <div class="modal-content">
+            <h2>Regras de Funcionamento</h2>
+            <p>✔ Chegue com 5 minutos de antecedência.<br>
+               ✔ Tolerância de atraso: 10 minutos.<br>
+               ✔ Cancelamentos devem ser feitos com pelo menos 1 hora de antecedência.</p>
+            <button id="aceitarRegras">Aceitar</button>
+        </div>
+    </div>
+
+    <div class="container" id="container">
+        <div class="img-container">
+            <img src="./img/minha-barberia-home.png" alt="" width="100%">
+        </div>
+        <div class="nome-barbearia">
+            <h1>BARBEARIA <br> STYLE</h1>
+        </div>
+        <button id="agendamentos">Ir para fila</button>
+    </div>
+
+    <script>
+        document.getElementById("agendamentos").addEventListener("click", function (event) {
+            event.preventDefault();
+            let modal = document.getElementById("modalRegras");
+
+            // Exibe o modal com animação
+            modal.classList.add("show");
+        });
+
+        document.getElementById("aceitarRegras").addEventListener("click", function () {
+            let modal = document.getElementById("modalRegras");
+            let container = document.getElementById("container");
+
+            // Esconde o modal suavemente
+            modal.classList.remove("show");
+
+            // Aguarda a animação do modal antes de iniciar a animação do container
+            setTimeout(() => {
+                container.style.transition = "transform 1.2s ease-in-out, opacity 1.2s ease-in-out";
+                container.style.transform = "translateY(-100vh)";
+                container.style.opacity = "0";
+
+                // Redireciona após a animação
+                setTimeout(() => {
+                    window.location.href = "/home";
+                }, 1200);
+            }, 400); // Tempo suficiente para o modal desaparecer
+        });
+    </script>
+
+</body>
+
+</html>
