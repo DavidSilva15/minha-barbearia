@@ -1,0 +1,117 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 40px;
+    background-color: white;
+    transition: transform 1.2s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+.container > button{
+    background-color: #2f3130;
+    color: #fff;
+    padding: 20px 80px;
+    border-radius: 40px;
+    font-size: 1.2em;
+    border-style: none;
+}
+
+.img-container {
+    width: 100%;
+    height: 400px; /* Ajuste conforme necessário */
+    overflow: hidden;
+}
+
+.img-container img {
+    width: 100%;
+    height: auto;
+    clip-path: ellipse(100% 74% at 30% 0);
+}
+
+/* Estilizando o modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: flex-end; /* Para surgir de baixo para cima */
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+    position: relative;
+    animation: slideUp 0.4s ease-in-out;
+}
+
+/* Animação de entrada (sobe com fade-in) */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Estilo do título e texto */
+.modal-content h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Estilo do botão */
+.modal-content button {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background: #0056b3;
+}
