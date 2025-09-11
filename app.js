@@ -11,8 +11,8 @@ const io = new Server(server);
 // Conexão com o banco de dados MySQL
 const db = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "",
+  user: "barbearia_user",
+  password: "Bestdavidx23", // coloque a senha que você definiu
   database: "minha_barbearia"
 });
 
