@@ -570,7 +570,7 @@ app.get('/client/intro', (req, res) => {
     res.send(html);
 });
 
-app.get('/admin/new', requireAdminHtml, (req, res) => {
+app.get('/admin/new', (req, res) => {
     const { renderRegisterAdminView } = require('./public/js/registerAdminView');
     const html = renderRegisterAdminView();
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
