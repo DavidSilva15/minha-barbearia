@@ -428,6 +428,37 @@ async function ensureGuestUser(clientGuid, nome) {
     }
 }
 
+// --- Status da barbearia (persistente em DB) ---
+async function getLojaAberta() {
+    const conn = await pool.getConnection();
+    try {
+        await conn.query(`
+      CREATE TABLE IF NOT EXISTS config_sistema (
+        chave VARCHAR(64) PRIMARY KEY,
+        valor VARCHAR(255) NOT NULL
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    `);
+        const [[row]] = await conn.query(
+            `SELECT valor FROM config_sistema WHERE chave='loja_aberta' LIMIT 1`
+        );
+        // Padrão: aberta (true) se ainda não configurado
+        return row ? row.valor === '1' : true;
+    } finally {
+        conn.release();
+    }
+}
+
+async function setLojaAberta(aberta) {
+    const val = aberta ? '1' : '0';
+    await pool.query(
+        `INSERT INTO config_sistema (chave, valor)
+         VALUES ('loja_aberta', ?)
+    ON DUPLICATE KEY UPDATE valor = VALUES(valor)`,
+        [val]
+    );
+}
+
+
 // Lista fila: se dataISO vier, lista daquele dia; se não vier, lista TODOS os futuros (ordenados por data+hora)
 async function listarFila(dataISO) {
     const now = new Date();
@@ -1066,6 +1097,20 @@ io.on('connection', (socket) => {
             socket.emit('client/bookingCanceled', { ok: false, message: msg });
         }
     });
+
+    // Status público (admin e clientes podem consultar)
+    socket.on('store/getStatus', async () => {
+        const aberta = await getLojaAberta();
+        socket.emit('store/status', { aberta });
+    });
+
+    // Admin define status (abre/fecha)
+    socket.on('admin/setStoreStatus', async ({ aberta }) => {
+        await setLojaAberta(!!aberta);
+        const payload = { aberta: !!aberta };
+        io.emit('store/status', payload); // broadcast para todos (admin e clientes)
+    });
+
 
 });
 
