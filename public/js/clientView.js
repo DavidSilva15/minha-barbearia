@@ -228,7 +228,7 @@ function renderClientView() {
       <div class="d-flex align-items-center gap-3">
         <img src="/img/logo.png" class="logo" alt="Barbearia" style="height:40px">
         <!-- Indicador de status -->
-        <span id="statusLoja" class="status-badge"></span>
+        <span id="statusLojaDesktop" class="status-badge"></span>
         <strong>Agendamentos</strong>
       </div>
 
