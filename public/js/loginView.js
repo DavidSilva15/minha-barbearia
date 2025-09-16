@@ -18,7 +18,7 @@ function renderLoginView() {
     <div class="row justify-content-center">
       <div class="col-12 col-sm-10 col-md-7 col-lg-5">
         <div class="text-center text-white mb-4">
-          <img src="/img/Logo.png" alt="Barbearia" style="height:64px" class="mb-2">
+          <img src="/img/logo.png" alt="Barbearia" style="height:64px" class="mb-2">
           <div class="brand">Painel do Administrador</div>
         </div>
 
