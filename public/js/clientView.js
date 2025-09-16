@@ -202,6 +202,17 @@ function renderClientView() {
   .has-bottom-cta {
     padding-bottom: 96px; /* espaço para a barra + safe area */
   }
+    .status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+@media (max-width: 576px) {
+  .status-badge { font-size: .95rem; }
+}
+
 
   /* Ajustes finos no mobile */
   @media (max-width: 767.98px) {
@@ -216,6 +227,8 @@ function renderClientView() {
       <!-- Desktop/Tablet (≥ md): layout original -->
       <div class="d-flex align-items-center gap-3">
         <img src="/img/logo.png" class="logo" alt="Barbearia" style="height:40px">
+        <!-- Indicador de status -->
+        <span id="statusLoja" class="status-badge"></span>
         <strong>Agendamentos</strong>
       </div>
 
@@ -234,6 +247,7 @@ function renderClientView() {
     <!-- Mobile (< md): logo grande centralizada -->
     <div class="container py-3 d-flex flex-column align-items-center d-md-none">
       <img src="/img/logo.png" class="logo-mobile-lg" alt="Barbearia">
+      <span id="statusLojaMobile" class="status-badge"></span>
       <strong class="mt-2">Agendamentos</strong>
     </div>
   </header>
@@ -328,6 +342,7 @@ function renderClientView() {
     const elLista = document.getElementById('listaAgendamentos');
     const elVazio = document.getElementById('vazio');
     const btnNovo = document.getElementById('btnNovo');
+    const statusEl = document.getElementById('statusLoja');
 
     const modal = new bootstrap.Modal(document.getElementById('agendarModal'));
 
@@ -616,6 +631,27 @@ function renderClientView() {
     const btnRefresh    = document.getElementById('btnRefresh');
     if (btnRefreshTop) btnRefreshTop.addEventListener('click', refreshPage);
     if (btnRefresh)    btnRefresh.addEventListener('click', refreshPage);
+
+
+  // === Indicador Barbearia aberta/fechada (realtime) ===
+  const statusEls = [
+    document.getElementById('statusLojaDesktop'),
+    document.getElementById('statusLojaMobile')
+  ].filter(Boolean);
+
+  function renderStatusLoja(aberta) {
+    const icon = aberta ? 'fa-store' : 'fa-store-slash';
+    const cls  = aberta ? 'text-success' : 'text-danger';
+    const txt  = aberta ? 'Barbearia aberta' : 'Barbearia fechada';
+    const html = \`<i class="fa-solid \${icon} \${cls}"></i><span class="\${cls}">\${txt}</span>\`;
+    statusEls.forEach(el => el.innerHTML = html);
+  }
+
+  // Estado inicial e atualizações
+  socket.emit('store/getStatus');
+  socket.on('store/status', ({ aberta }) => renderStatusLoja(aberta));
+
+
 
     init();
   </script>
