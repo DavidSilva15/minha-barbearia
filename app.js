@@ -570,7 +570,7 @@ app.get('/client/intro', (req, res) => {
     res.send(html);
 });
 
-app.get('/admin/new', (req, res) => {
+app.get('/admin/new', requireAdminHtml, (req, res) => {
     const { renderRegisterAdminView } = require('./public/js/registerAdminView');
     const html = renderRegisterAdminView();
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -596,7 +596,7 @@ app.post('/admin/new', async (req, res) => {
 });
 
 // LISTAR todos os admins/barbeiros
-app.get('/admin/users', async (req, res) => {
+app.get('/admin/users', requireAdminApi, async (req, res) => {
     try {
         const [rows] = await pool.query(
             `SELECT
@@ -616,7 +616,7 @@ app.get('/admin/users', async (req, res) => {
 });
 
 // ATUALIZAR admin por ID (nome, email, senha opcional)
-app.put('/admin/users/:id', async (req, res) => {
+app.put('/admin/users/:id', requireAdminApi, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const { nome, email, senha } = req.body || {};
