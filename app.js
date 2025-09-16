@@ -554,7 +554,8 @@ app.get('/admin', requireAdminWeb, (req, res) => {
 });
 
 // Rota pública segue igual
-//app.get('/', (req, res) => res.redirect('/client/intro'));
+app.get('/', (req, res) => res.redirect('/client/intro'));
+
 app.get('/client', (req, res) => {
     const html = renderClientView();
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
