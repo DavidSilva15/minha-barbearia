@@ -1,0 +1,287 @@
+/* Public/mobile.css */
+
+/* Utilitários */
+.mobile-hidden {
+    display: none !important;
+}
+
+.mobile-only {
+    display: none !important;
+}
+
+@media (max-width: 575.98px) {
+    .mobile-only {
+        display: initial !important;
+    }
+}
+
+/* ---------- Header / Menu mobile ---------- */
+@media (max-width: 575.98px) {
+    header .container {
+        padding-top: .75rem !important;
+        padding-bottom: .75rem !important;
+    }
+
+    header .d-flex.align-items-center.gap-3>img,
+    header .d-flex.align-items-center.gap-3 .rounded-circle {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    header strong {
+        font-size: .95rem;
+    }
+
+    header small {
+        font-size: .7rem;
+    }
+
+    /* Esconde os botões de ação do header (Serviços, Pagamento, Relatórios) */
+    header .d-flex.align-items-center.gap-2 {
+        display: none !important;
+    }
+
+    /* Mostra o botão hamburguer (adicione um <button id="btnMobileMenu" ...> no header) */
+    #btnMobileMenu {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(0, 0, 0, .1);
+        border-radius: .5rem;
+        background: #fff;
+    }
+
+    #btnMobileMenu .bar {
+        width: 18px;
+        height: 2px;
+        background: #000;
+        display: block;
+        margin: 3px 0;
+    }
+
+    /* Largura do offcanvas no mobile */
+    .offcanvas.offcanvas-start#offcanvasMenu {
+        width: min(85vw, 320px);
+    }
+
+    .offcanvas-header .logo-sm {
+        height: 28px;
+    }
+
+    .offcanvas-body .btn {
+        width: 100%;
+        margin-bottom: .5rem;
+        text-align: left;
+    }
+}
+
+/* ---------- Main / Cards ---------- */
+@media (max-width: 575.98px) {
+    main .card.shadow-sm {
+        border-radius: 12px;
+    }
+
+    .card .card-body {
+        padding: 1rem;
+    }
+}
+
+/* ---------- Tabela de Slots (admin) ---------- */
+/* Converte a tabela (Hora | Status | Cliente | Presença | Ação) em lista vertical */
+@media (max-width: 575.98px) {
+    #tabelaSlots thead {
+        display: none;
+    }
+
+    #tabelaSlots tbody tr {
+        display: block;
+        background: #fff;
+        border-radius: 12px;
+        margin-bottom: .75rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .06);
+        padding: .5rem .75rem;
+    }
+
+    #tabelaSlots tbody td {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: .35rem .25rem !important;
+        border: 0 !important;
+        font-size: .95rem;
+    }
+
+    /* Rótulos "virtuais" via ::before (ajuste os textos se renomear colunas) */
+    #tabelaSlots tbody td:nth-child(1)::before {
+        content: "Hora";
+        color: #6c757d;
+    }
+
+    #tabelaSlots tbody td:nth-child(2)::before {
+        content: "Status";
+        color: #6c757d;
+    }
+
+    #tabelaSlots tbody td:nth-child(3)::before {
+        content: "Cliente";
+        color: #6c757d;
+    }
+
+    #tabelaSlots tbody td:nth-child(4)::before {
+        content: "Presença";
+        color: #6c757d;
+    }
+
+    #tabelaSlots tbody td:nth-child(5)::before {
+        content: "Ação";
+        color: #6c757d;
+    }
+
+    #tabelaSlots .slot-btn {
+        min-width: auto;
+        width: 100%;
+    }
+
+    /* Compacta badges e selects */
+    .badge {
+        font-size: .75rem;
+        padding: .35em .55em;
+    }
+
+    .form-select.form-select-sm {
+        font-size: .85rem;
+    }
+}
+
+/* ---------- Modais (serviços, formas, relatórios) ---------- */
+@media (max-width: 575.98px) {
+    .modal-dialog {
+        margin: .75rem;
+    }
+
+    .modal-content {
+        border-radius: 14px;
+    }
+}
+
+/* ---------- Tabelas: Serviços & Formas (nos modais) ---------- */
+/* Esconde coluna ID e transforma em lista responsiva */
+@media (max-width: 575.98px) {
+
+    #servicoModal table thead,
+    #pagamentoModal table thead {
+        display: none;
+    }
+
+    #servicoModal table tbody tr,
+    #pagamentoModal table tbody tr {
+        display: block;
+        background: #fff;
+        border-radius: 10px;
+        margin-bottom: .5rem;
+        padding: .5rem .75rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+    }
+
+    #servicoModal table tbody tr td,
+    #pagamentoModal table tbody tr td {
+        display: flex;
+        justify-content: space-between;
+        padding: .25rem 0 !important;
+        border: 0 !important;
+    }
+
+    /* Serviços: (# | Nome | Preço | Ações) */
+    #tbServicos td:nth-child(1) {
+        display: none;
+    }
+
+    /* oculta ID */
+    #tbServicos td:nth-child(2)::before {
+        content: "Serviço";
+        color: #6c757d;
+    }
+
+    #tbServicos td:nth-child(3)::before {
+        content: "Preço";
+        color: #6c757d;
+    }
+
+    #tbServicos td:nth-child(4) {
+        flex-direction: column;
+        gap: .5rem;
+    }
+
+    #tbServicos td:nth-child(4)::before {
+        content: "Ações";
+        color: #6c757d;
+        margin-bottom: .25rem;
+    }
+
+    #tbServicos td:nth-child(4) .btn {
+        width: 100%;
+    }
+
+    /* Formas: (# | Nome | Taxa | Ações) */
+    #tbFormas td:nth-child(1) {
+        display: none;
+    }
+
+    /* oculta ID */
+    #tbFormas td:nth-child(2)::before {
+        content: "Forma";
+        color: #6c757d;
+    }
+
+    #tbFormas td:nth-child(3)::before {
+        content: "Taxa";
+        color: #6c757d;
+    }
+
+    #tbFormas td:nth-child(4) {
+        flex-direction: column;
+        gap: .5rem;
+    }
+
+    #tbFormas td:nth-child(4)::before {
+        content: "Ações";
+        color: #6c757d;
+        margin-bottom: .25rem;
+    }
+
+    #tbFormas td:nth-child(4) .btn {
+        width: 100%;
+    }
+}
+
+/* ---------- ClientView: cards e “vazio” ---------- */
+@media (max-width: 575.98px) {
+    .card-ag .card-body {
+        padding: .75rem;
+    }
+
+    #vazio img {
+        max-width: 240px !important;
+    }
+}
+
+/* ---------- Login / Register ---------- */
+@media (max-width: 575.98px) {
+    .brand {
+        font-size: 1rem;
+    }
+
+    .card .form-control {
+        font-size: .95rem;
+    }
+}
+
+/* ---------- Botões menores no mobile ---------- */
+@media (max-width: 575.98px) {
+    .btn {
+        font-size: .9rem;
+        padding: .45rem .6rem;
+    }
+}
