@@ -596,7 +596,7 @@ app.post('/admin/new', async (req, res) => {
 });
 
 // LISTAR todos os admins/barbeiros
-app.get('/admin/users', requireAdminApi, async (req, res) => {
+app.get('/admin/users', async (req, res) => {
     try {
         const [rows] = await pool.query(
             `SELECT
