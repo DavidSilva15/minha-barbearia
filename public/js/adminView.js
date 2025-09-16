@@ -42,6 +42,13 @@ function renderAdminView({ user = { nome: "Administrador", fotoUrl: "" } } = {})
 
       <!-- Ações (desktop) -->
       <div class="d-none d-md-inline-flex align-items-center gap-2">
+        <div class="border rounded p-2 d-flex align-items-center justify-content-between">
+          <div class="small text-muted">Status da barbearia</div>
+          <div class="form-check form-switch m-0">
+            <input class="form-check-input" type="checkbox" id="chkLojaAbertaMobile">
+          </div>
+        </div>
+
         <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#servicoModal">
           Cadastrar serviços
         </button>
@@ -76,7 +83,11 @@ function renderAdminView({ user = { nome: "Administrador", fotoUrl: "" } } = {})
           <small class="text-muted">Painel do administrador</small>
         </div>
       </div>
-
+      <!-- Toggle: Barbearia aberta -->
+      <div class="form-check form-switch me-2">
+        <input class="form-check-input" type="checkbox" id="chkLojaAberta">
+        <label class="form-check-label" for="chkLojaAberta">Abrir barbearia</label>
+      </div>
       <button class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#servicoModal" data-bs-dismiss="offcanvas">
         Cadastrar serviços
       </button>
@@ -994,6 +1005,35 @@ socket.on('admin/attendanceDeleted', ({ ok, message, dataISO }) => {
       socket.emit('admin/getDay', { dataISO: '${hojeISO}' });
       subscribePush(); // opcional
     }
+
+    // === Toggle Barbearia (desktop + mobile) ===
+    const chkLoja = document.getElementById('chkLojaAberta');
+    const chkLojaMob = document.getElementById('chkLojaAbertaMobile');
+    let syncingLoja = false;
+
+    function setSwitches(aberta) {
+      syncingLoja = true;
+      if (chkLoja)    chkLoja.checked = !!aberta;
+      if (chkLojaMob) chkLojaMob.checked = !!aberta;
+      syncingLoja = false;
+    }
+
+    // Estado inicial
+    socket.emit('store/getStatus');
+
+    // Atualização em tempo real (vinda do servidor)
+    socket.on('store/status', ({ aberta }) => setSwitches(aberta));
+
+    // Mudanças locais: qualquer um dos switches dispara update global
+    [chkLoja, chkLojaMob].forEach(el => {
+      if (!el) return;
+      el.addEventListener('change', () => {
+        if (syncingLoja) return; // evita loop
+        socket.emit('admin/setStoreStatus', { aberta: el.checked });
+      });
+    });
+
+
     init();
   </script>
 </body>
