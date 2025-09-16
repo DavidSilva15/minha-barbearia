@@ -616,7 +616,7 @@ app.get('/admin/users', async (req, res) => {
 });
 
 // ATUALIZAR admin por ID (nome, email, senha opcional)
-app.put('/admin/users/:id', requireAdminApi, async (req, res) => {
+app.put('/admin/users/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
         const { nome, email, senha } = req.body || {};
