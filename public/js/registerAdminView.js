@@ -41,7 +41,7 @@ function renderRegisterAdminView() {
   <header class="bg-white border-bottom">
     <div class="container py-3 d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center gap-2">
-        <img src="/img/Logo.png" alt="Barbearia" style="height:48px">
+        <img src="/img/logo.png" alt="Barbearia" style="height:48px">
         <h5 class="mb-0 d-none d-md-block">Barbeiros / Admins</h5>
       </div>
 
@@ -78,7 +78,7 @@ function renderRegisterAdminView() {
     </div>
     <div class="offcanvas-body d-flex flex-column gap-2">
       <div class="d-flex align-items-center gap-2 mb-2">
-        <img src="/img/Logo.png" alt="Barbearia" style="height:40px">
+        <img src="/img/logo.png" alt="Barbearia" style="height:40px">
         <div class="d-flex flex-column">
           <strong>Barbearia</strong>
           <small class="text-muted">Gerenciar contas</small>
