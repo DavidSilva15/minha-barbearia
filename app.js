@@ -410,22 +410,33 @@ async function definirPresenca(agendamentoId, presenca) {
     return { ok: true };
 }
 
-// Cria/obtém usuário cliente “guest” com base no guid
+function slugifyNome(nome) {
+    const base = String(nome || 'Cliente').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return base
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')     // troca tudo que não for a-z0-9 por '-'
+        .replace(/^-+|-+$/g, '')         // remove hifens das pontas
+        .slice(0, 30) || 'cliente';      // limite opcional
+}
+
+// Cria/obtém usuário cliente “guest” por (GUID + Nome)
+// => nomes diferentes no mesmo device geram usuários diferentes
 async function ensureGuestUser(clientGuid, nome) {
-    const email = `${clientGuid}@guest.local`;
+    const slug = slugifyNome(nome);
+    const email = `${slug}.${clientGuid}@guest.local`;   // <-- chaveia por nome + guid
+
     const [rows] = await pool.query(`SELECT id FROM usuarios WHERE email = ?`, [email]);
     if (rows.length) {
-        // opcional: atualizar nome
-        await pool.query(`UPDATE usuarios SET nome = ?, tipo='cliente' WHERE id = ?`, [nome || 'Cliente', rows[0].id]);
+        // NÃO atualiza o nome para não sobrescrever outros agendamentos
         return rows[0].id;
-    } else {
-        const [res] = await pool.query(
-            `INSERT INTO usuarios (nome, email, senha_hash, tipo)
-             VALUES (?, ?, 'guest', 'cliente')`,
-            [nome || 'Cliente', email]
-        );
-        return res.insertId;
     }
+    const [res] = await pool.query(
+        `INSERT INTO usuarios (nome, email, senha_hash, tipo)
+     VALUES (?, ?, 'guest', 'cliente')`,
+        [nome || 'Cliente', email]
+    );
+    return res.insertId;
 }
 
 // --- Status da barbearia (persistente em DB) ---
